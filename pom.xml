@@ -21,6 +21,10 @@
         <repository>
             <id>fanciful-mvn-repo</id>
             <url>https://raw.github.com/mkremins/fanciful/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
     </repositories>
     <dependencies>
@@ -33,6 +37,7 @@
         <dependency>
             <groupId>mkremins</groupId>
             <artifactId>fanciful</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
