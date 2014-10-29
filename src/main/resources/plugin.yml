@@ -2,3 +2,7 @@ name: PurgePlugin
 version: 0.2
 main: com.clashnia.plugins.purge.PurgePlugin
 author: TheFatDemon
+commands:
+  purge:
+    description: Main Purge Command
+    permission: purge.main
