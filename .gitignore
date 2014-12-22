@@ -4,7 +4,7 @@ pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
-PurgePlugin.iml
 .idea
 purge-plugin.iml
 dependency-reduced-pom.xml
+*.iml

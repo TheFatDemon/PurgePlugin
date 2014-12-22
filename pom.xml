@@ -15,8 +15,8 @@
     </properties>
     <repositories>
         <repository>
-            <id>md5-repo</id>
-            <url>http://repo.md-5.net/content/repositories/snapshots/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
         <repository>
             <id>fanciful-mvn-repo</id>
@@ -34,11 +34,11 @@
         </repository>
     </repositories>
     <dependencies>
-        <!-- Spigot -->
+        <!--Spigot-API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}</version>
+            <version>1.8-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>mkremins</groupId>
