@@ -1,9 +1,9 @@
 package com.clashnia.plugins.purge.listeners;
 
 import com.clashnia.plugins.purge.PurgePlugin;
-import com.clashnia.plugins.purge.models.PlayerModel;
 import com.clashnia.plugins.purge.utils.PlayerModelUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,6 +12,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+@SuppressWarnings("unused")
 public class PlayerListener implements Listener {
     private final PurgePlugin plugin;
 
@@ -31,6 +32,22 @@ public class PlayerListener implements Listener {
             playerModelUtil.createRecord(player);
             // We set a Welcome Message
             event.setJoinMessage(ChatColor.GOLD + "[PURGE] " + player.getName() + " has joined us in The Purge For the First Time.");
+        }else{
+            if (playerModelUtil.getRecord(player).isDead == 1){
+                // Set player to Spectator
+                player.setGameMode(GameMode.SPECTATOR);
+                // Allow Flying
+                player.setAllowFlight(true);
+                // Set to Flying
+                player.setFlying(true); // This is done to prevent some issues with Spectator Mode
+                // Set the Welcome Message
+                event.setJoinMessage(ChatColor.GOLD + "[PURGE] " + player.getDisplayName() + " Is Watching From the DEAD");
+            }else{
+                // Update Relog Count
+                playerModelUtil.addRelog(player, 1);
+                // Set the Welcome Message
+                event.setJoinMessage(ChatColor.GOLD + "[PURGE] " + player.getName() + " has Returned For MORE!");
+            }
         }
     }
 
@@ -49,6 +66,10 @@ public class PlayerListener implements Listener {
         PlayerModelUtil playerModelUtil = new PlayerModelUtil(plugin);
         // We then add 1 kill to the killer's record.
         playerModelUtil.addKills(killer, 1);
+        // After Player Dies, We set them to Spectator Mode
+        player.setGameMode(GameMode.SPECTATOR);
+        // And Set them as "dead"
+        playerModelUtil.setDead(player, true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -58,7 +79,7 @@ public class PlayerListener implements Listener {
         // Instantiate a PlayerModelUtil
         PlayerModelUtil playerModelUtil = new PlayerModelUtil(plugin);
         // Call update last login method
-        playerModelUtil.setLastLogin(player);
+        playerModelUtil.updateLastLogin(player);
         // Some fun
         event.setQuitMessage(ChatColor.GOLD + player.getName() + " has left the Purge.");
     }

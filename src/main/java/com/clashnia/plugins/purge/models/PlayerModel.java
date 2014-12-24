@@ -30,9 +30,9 @@ public class PlayerModel {
     @IQColumn
     public int relogCount;
 
-    // *Not sure if going to be classic purge or Infection based.
+    // Is Dead?
     @IQColumn
-    public int isInfected;
+    public int isDead;
 
     // Last Time the person logged in.
     @IQColumn
@@ -52,7 +52,7 @@ public class PlayerModel {
         this.playerName = player.getName();
         this.killCount = 0;
         this.relogCount = 0;
-        this.isInfected = 0;
+        this.isDead = 0;
         this.lastLoggedIn = new Timestamp(now.getTime());
     }
 }

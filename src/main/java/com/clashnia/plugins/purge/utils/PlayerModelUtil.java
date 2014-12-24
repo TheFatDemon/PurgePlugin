@@ -41,7 +41,7 @@ public class PlayerModelUtil {
         // Create Connection
         Db db = plugin.getDB();
         // Create a basic Player model, this one is different from the one used above because
-        // we passed 'player' as a paraeter to the constructor
+        // we passed 'player' as a parameter to the constructor
         // Which means it creates basic default data
         PlayerModel playerModel = new PlayerModel(player);
         // We then insert that Model
@@ -67,7 +67,7 @@ public class PlayerModelUtil {
         db.close();
     }
 
-    public void setLastLogin(Player player) {
+    public void updateLastLogin(Player player) {
         // Create Connection
         Db db = plugin.getDB();
         // Empty Player Model
@@ -83,6 +83,41 @@ public class PlayerModelUtil {
                 .is(player.getUniqueId().toString())
                 .update();
         // Close connection
+        db.close();
+    }
+
+    public void addRelog(Player player, int amount) {
+        // Open Connection to DB
+        Db db = plugin.getDB();
+        // Empty Player Model
+        PlayerModel playerModel = new PlayerModel();
+        // Update Kill count
+        db.from(playerModel)
+                .increment(playerModel.relogCount)
+                .by(amount)
+                .where(playerModel.playerUUID)
+                .is(player.getUniqueId().toString())
+                .update();
+        // Close Connection
+        db.close();
+    }
+
+    public void setDead(Player player, boolean value) {
+        // Same Stuff
+        Db db = plugin.getDB();
+        PlayerModel playerModel = new PlayerModel();
+        // This is Just a Temporary Value because I store Booleans as 1's and 0's in the Database
+        int tmp = 0;
+        if (value)
+            tmp = 1;
+        // Now we Update the Database
+        db.from(playerModel)
+                .set(playerModel.isDead)
+                .to(tmp)
+                .where(playerModel.playerUUID)
+                .is(player.getUniqueId().toString())
+                .update();
+        // Close Connection
         db.close();
     }
 }

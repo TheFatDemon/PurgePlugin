@@ -23,7 +23,6 @@ public class PurgeCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-
         return true;
     }
 }
