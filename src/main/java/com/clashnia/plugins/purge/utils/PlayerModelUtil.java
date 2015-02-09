@@ -3,10 +3,13 @@ package com.clashnia.plugins.purge.utils;
 import com.clashnia.plugins.purge.PurgePlugin;
 import com.clashnia.plugins.purge.models.PlayerModel;
 import com.iciql.Db;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.*;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class PlayerModelUtil {
     private final PurgePlugin plugin;
@@ -119,5 +122,35 @@ public class PlayerModelUtil {
                 .update();
         // Close Connection
         db.close();
+    }
+
+    public void updateScoreBoard(Player player){
+        ScoreboardManager scoreboardManager = plugin.getServer().getScoreboardManager();
+        Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
+        Objective objective = scoreboard.registerNewObjective("test", "dummy");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(ChatColor.GOLD + "PURGE");
+        Score score = objective.getScore(ChatColor.RED + "Kills:");
+
+        Db db = plugin.getDB();
+        PlayerModel playerModel = new PlayerModel();
+        int kills = db.
+                    from(playerModel).
+                    where(playerModel.playerUUID).
+                    is(player.getUniqueId().toString()).
+                    selectFirst().
+                    killCount;
+        score.setScore(kills);
+
+        Score score1 = objective.getScore(ChatColor.RED + "Relogs:");
+        int relogs = db.
+                from(playerModel).
+                where(playerModel.playerUUID).
+                is(player.getUniqueId().toString()).
+                selectFirst().
+                relogCount;
+        score1.setScore(relogs);
+
+        player.setScoreboard(scoreboard);
     }
 }
