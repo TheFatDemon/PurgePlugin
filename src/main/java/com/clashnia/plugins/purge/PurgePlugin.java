@@ -54,10 +54,6 @@ public class PurgePlugin extends JavaPlugin {
         logger.info("Purge Plugin Disabling.");
     }
 
-    public static PurgePlugin getInstance(){
-        return INST;
-    }
-
     public Db getDB(){
         FileConfiguration config = getConfig();
         return Db.open("mysql://" + config.getString("mysql.host") + ":" + config.getString("mysql.port") + "/" + config.getString("mysql.database") , config.getString("mysql.username"), config.getString("mysql.password"));
