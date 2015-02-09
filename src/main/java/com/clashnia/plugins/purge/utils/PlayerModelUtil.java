@@ -152,5 +152,8 @@ public class PlayerModelUtil {
         score1.setScore(relogs);
 
         player.setScoreboard(scoreboard);
+
+        // Never Forget to close the connection
+        db.close();
     }
 }

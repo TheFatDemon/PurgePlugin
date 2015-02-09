@@ -2,9 +2,11 @@ package com.clashnia.plugins.purge;
 
 import com.clashnia.plugins.purge.commands.PurgeCommand;
 import com.clashnia.plugins.purge.listeners.PlayerListener;
+import com.clashnia.plugins.purge.runnables.ScoreBoardUpdater;
 import com.iciql.Db;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.logging.Logger;
 
@@ -40,6 +42,9 @@ public class PurgePlugin extends JavaPlugin {
         // Register Commands
         // Whenever a command is registered, make sure to add it in plugin.yml
         getCommand("purge").setExecutor(new PurgeCommand(this));
+
+        BukkitScheduler scheduler = this.getServer().getScheduler();
+        scheduler.scheduleSyncRepeatingTask(this, new ScoreBoardUpdater(this), 120L, 120L);
 
         logger.info("PurgePlugin Enabled.");
     }
