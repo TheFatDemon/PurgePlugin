@@ -62,6 +62,12 @@ public class PlayerListener implements Listener {
         Player player = event.getEntity();
         // Not too sure if this part will work.
         Player killer = player.getKiller();
+
+        // Check if there is a killer
+        if (killer == null){
+            return;
+        }
+
         // We then get the Player Util. We only need one because we pass the specific player we
         // want in the arguments for each function
         PlayerModelUtil playerModelUtil = new PlayerModelUtil(plugin);
