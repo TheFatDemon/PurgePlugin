@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 @SuppressWarnings("unused")
 public class PlayerListener implements Listener {
@@ -70,6 +71,29 @@ public class PlayerListener implements Listener {
         player.setGameMode(GameMode.SPECTATOR);
         // And Set them as "dead"
         playerModelUtil.setDead(player, true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerRespawn(PlayerRespawnEvent event){
+        Player player = event.getPlayer();
+        PlayerModelUtil playerModelUtil = new PlayerModelUtil(plugin);
+
+        // If player is considered Dead
+        if (playerModelUtil.getRecord(player).isDead == 1){
+            // Set Them as spectator
+            player.setGameMode(GameMode.SPECTATOR);
+            player.setAllowFlight(true);
+            player.setFlying(true);
+
+            // Clear player's inventory
+            player.getInventory().clear();
+
+            // Simple Message
+            plugin.getServer().broadcastMessage(ChatColor.GOLD + "[PURGE]" + player.getName() + " has respawned as a SPECTATOR");
+            // Just to make sure, send them to spawn
+            event.setRespawnLocation(player.getWorld().getSpawnLocation());
+        }
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
