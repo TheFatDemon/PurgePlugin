@@ -5,4 +5,7 @@ author: TheFatDemon
 commands:
   purge:
     description: Main Purge Command
-    permission: purge.main
+    permission: purge.basic.purge
+  stats:
+    description: Check Current Stats
+    permission: purge.basic.stats

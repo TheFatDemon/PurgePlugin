@@ -1,6 +1,7 @@
 package com.clashnia.plugins.purge;
 
 import com.clashnia.plugins.purge.commands.PurgeCommand;
+import com.clashnia.plugins.purge.commands.StatsCommand;
 import com.clashnia.plugins.purge.listeners.PlayerListener;
 import com.clashnia.plugins.purge.runnables.ScoreBoardUpdater;
 import com.iciql.Db;
@@ -27,6 +28,7 @@ public class PurgePlugin extends JavaPlugin {
         getConfig().addDefault("mysql.port", 3306);
         getConfig().addDefault("configured", false);
         getConfig().options().copyDefaults(true);
+
         // This is done to allow owner of server to configure the Database
         if (!getConfig().getBoolean("configured")){
             saveConfig(); // Save the Config before shutting down.
@@ -42,6 +44,7 @@ public class PurgePlugin extends JavaPlugin {
         // Register Commands
         // Whenever a command is registered, make sure to add it in plugin.yml
         getCommand("purge").setExecutor(new PurgeCommand(this));
+        getCommand("stats").setExecutor(new StatsCommand(this));
 
         BukkitScheduler scheduler = this.getServer().getScheduler();
         scheduler.scheduleSyncRepeatingTask(this, new ScoreBoardUpdater(this), 120L, 120L);
